@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ステータス画面</title>
+</head>
+<body>
+
+name：[[${character.getPlayer_name()}]]<br>
+Lv  ：[[${character.getLevel()}]]<br>
+Rank：[[${character.getRank()}]]<br>
+所持マニー：[[${character.getMoney()}]]
+
+<!--
+性別：[[${character.getSex()}]]<br>
+Game_no：[[${character.getGame_no()}]]<br>
+ -->
+<div>
+
+<table>
+  <tr>
+    <td>
+      HP / 最大HP
+    </td>
+    <td>
+      [[${character.getHit_point()}]] / [[${character.getMax_hit_point()}]]
+    </td>
+  </tr>
+  <tr>
+    <td>
+      攻撃力
+    </td>
+    <td>
+      [[${character.getOffensive_power()}]]
+    </td>
+  </tr>
+  <tr>
+    <td>
+      防御力
+    </td>
+    <td>
+      [[${character.getDefense_power()}]]
+    </td>
+  </tr>
+  <tr>
+    <td>
+      回復力
+    </td>
+    <td>
+      [[${character.getHeal_power()}]]
+    </td>
+  </tr>
+  <tr>
+    <td>
+      素早さ
+    </td>
+    <td>
+      [[${character.getSpeed()}]]
+    </td>
+  </tr>
+  <tr>
+    <td>
+      現在の経験値
+    </td>
+    <td>
+      [[${character.getExperience_point()}]]
+    </td>
+  </tr>
+  <tr>
+    <td>
+      次のレベルアップまで
+    </td>
+    <td>
+      [[${character.getNext_level_point()}]]
+    </td>
+  </tr>
+
+</table>
+
+</div>
+
+<form method="post" th:action="Fight">
+  <input type="submit" value="メニューに戻る">
+  <input type="hidden" name="bottom" value="menu">
+</form>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>装備画面</title>
+<script type="text/javascript">
+<!--
+
+function buki(){
+
+	var syoki_buki = document.buki_menu.syoki_buki.value;
+	var select_buki = document.buki_menu.soubi.value;
+
+	if(syoki_buki == select_buki){
+		document.buki_menu.action.disabled="disabled";
+	}else{
+		document.buki_menu.action.disabled="";
+	}
+
+}
+
+function bougu(){
+
+	var syoki_bougu = document.bougu_menu.syoki_bougu.value;
+	var select_bougu = document.bougu_menu.soubi.value;
+
+	if(syoki_bougu == select_bougu){
+		document.bougu_menu.action.disabled="disabled";
+	}else{
+		document.bougu_menu.action.disabled="";
+	}
+
+}
+-->
+</script>
+</head>
+<body>
+<div align="center">
+現在の装備一覧<br>
+<br>
+<font color="red">[[${message}]]</font><br>
+<br>
+<form name="buki_menu" method="post" action="Fight" th:object="${Form}">
+武器：<select name="soubi" onChange="buki()">
+        <option value="00">なし</option>
+        <option th:each="buki : ${bukilist}"
+                th:value="${buki.getItem_no()}"
+                th:text="${buki.getItem_name()}"
+
+                th:selected=" ${equipment_buki} == ${buki.getItem_no()}">pulldown</option>
+      </select>
+      <input type="submit" name="action" value="装備" disabled><br>
+      <input type="hidden" name="soubi_kbn" value="buki">
+      <input type="hidden" name="game_no" th:value="${job.getGame_no()}">
+      <input type="hidden" name="syoki_buki" th:value="${equipment_buki}">
+</form>
+攻撃力：[[${job.getOffensive_power()}]]<br>
+<br>
+<br>
+<form name="bougu_menu" method="post" th:action="Fight" th:object="${Form}">
+防具：<select name="soubi" onChange="bougu()">
+        <option value="00">なし</option>
+        <option th:each="soubi : ${soubilist}"
+                th:value="${soubi.getItem_no()}"
+                th:text="${soubi.getItem_name()}"
+                th:selected=" ${equipment_bougu} == ${soubi.getItem_no()}">pulldown</option>
+      </select>
+      <input type="submit" name="action" value="装備" disabled><br>
+      <input type="hidden" name="soubi_kbn" value="bougu">
+      <input type="hidden" name="game_no" th:value="${job.getGame_no()}">
+      <input type="hidden" name="syoki_bougu" th:value="${equipment_bougu}">
+</form>
+防御力：[[${job.getDefense_power()}]]<br>
+
+</div>
+
+<form method="post" th:action="Fight">
+  <input type="submit" value="メニューに戻る">
+  <input type="hidden" name="bottom" value="menu">
+</form>
+
+
+</body>
+</html>

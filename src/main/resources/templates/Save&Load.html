@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>セーブ＆ロード画面</title>
+</head>
+<script>
+<!--
+$(function() {
+  $('[id^="chk_"]').click(function(event){
+    event.stopPropagation();
+  });
+  $('[id^="chk_"]').parent('td').click(function(event){
+    $(this).children('[id^="chk_"]').trigger('click');
+  });
+  $('label[for^="chk_"]').click(function(event) {
+    event.preventDefault();
+  });
+});
+
+function save(){
+	var chkbox  = document.getElementsByName('chk');
+	var game_no = document.getElementsByName('game_no');
+	var uniq_no = document.getElementsByName('uniq_no');
+	var chk_num = 0;
+	var chk;
+
+	for(var i = 0 ; i < chkbox.length ; i++){
+		if(chkbox[i].checked == true){
+			chk_num = chk_num + 1;
+			chk = i;
+		}
+	}
+
+	if (chk_num == 0){
+		alert('チェックボックスを１つ選択してください');
+		return false;
+	}else if(chk_num != 1){
+		alert('チェックボックスは１つだけ選択してください');
+		return false;
+	}
+
+	var result = window.confirm('ここにデータをセーブしますか？');
+	if (! result){
+		return false;
+	}
+
+	// チェックボックスで選択したgame_noをセット
+	document.save_or_load.game_no.value = game_no[chk].value;
+	document.save_or_load.uniq_no.value = uniq_no[chk].value;
+	document.save_or_load.bottom.value = 'save';
+	document.save_or_load.submit();
+}
+
+function load(){
+	var chkbox  = document.getElementsByName('chk');
+	var game_no = document.getElementsByName('game_no');
+	var uniq_no = document.getElementsByName('uniq_no');
+	var chk_num = 0;
+	var chk;
+
+	for(var i = 0 ; i < chkbox.length ; i ++){
+		if(chkbox[i].checked == true){
+			chk_num = chk_num + 1;
+			chk = i;
+		}
+	}
+
+	if (chk_num == 0){
+		alert('チェックボックスを１つ選択してください');
+		return false;
+	}else if(chk_num != 1){
+		alert('チェックボックスは１つだけ選択してください');
+		return false;
+	}
+
+	var result = window.confirm('このデータをロードしますか？');
+	if (! result){
+		return false;
+	}
+
+	// チェックボックスで選択したgame_noをセット
+	document.save_or_load.game_no.value = game_no[chk].value;
+	document.save_or_load.uniq_no.value = uniq_no[chk].value;
+	document.save_or_load.bottom.value = 'load';
+	document.save_or_load.submit();
+
+}
+
+-->
+</script>
+<body>
+
+<div align="center">
+#---------------------------------------------#
+<table>
+  <tr th:each="savedata : ${savedatalist}">
+      <td>
+        <input type="checkbox" name="chk" class="chk">
+      </td>
+      <td>
+        <label for="chk">|Name ：[[${savedata.getPlayer_name()}]] <br>
+                         |Level：[[${savedata.getLevel()}]]<br>
+                         |Rank ：[[${savedata.getRank()}]] <br>
+                         |Money：[[${savedata.getMoney()}]]</label><br>
+                         #---------------------------------------------#<br>
+        <input type="hidden" name="uniq_no" th:value="${savedata.getIndex_no()}">
+        <input type="hidden" name="game_no"  th:value="${savedata.getGame_no()}">
+      </td>
+  </tr>
+  <!-- セーブ画面の時は新規データ登録用を一つ用意しておく -->
+  <th:block th:if=" ${save_or_load} == save">
+  <tr>
+      <td>
+        <input type="checkbox" name="chk" class="chk">
+      </td>
+      <td>
+        <label for="chk">新規データ</label><br>
+        #---------------------------------------------#<br>
+        <input type="hidden" name="uniq_no" th:value="${new_index}">
+        <input type="hidden" name="game_no" value="new">
+      </td>
+  </tr>
+  </th:block>
+</table>
+
+
+<form name="save_or_load" method="post" th:action="Fight" th:object="${Form}">
+
+  <th:block th:if=" ${save_or_load} == save">
+    <input type="submit" name="action" value="セーブ" onclick="save();return false;">
+  </th:block>
+  <th:block th:if=" ${save_or_load} == load">
+    <input type="submit" name="action" value="ロード" onclick="load();return false;">
+  </th:block>
+
+  <input type="hidden" name="game_no" value="">
+  <input type="hidden" name="uniq_no" value="">
+  <input type="hidden" name="bottom" value="">
+  <input type="hidden" name="save_or_load" value="save">
+
+</form>
+
+</div>
+
+
+
+<form method="post" th:action="Fight">
+  <input type="submit" value="メニューに戻る">
+  <input type="hidden" name="bottom" value="menu">
+</form>
+
+</body>
+</html>

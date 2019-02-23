@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Game Menu</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="js/common.js" th:src="@{/js/common.js}"></script>
+<script type="text/javascript">
+<!--
+//装備画面に遷移する
+function Equipment(){
+	document.start_menu.bottom.value='equipment';
+	document.start_menu.submit();
+}
+// ステータス画面に遷移する
+function Show_Status(){
+	document.start_menu.bottom.value='status';
+	document.start_menu.submit();
+}
+// 所持アイテム一覧に遷移する。
+function Show_Item_list(){
+	document.start_menu.bottom.value='showitemlist';
+	document.start_menu.submit();
+}
+//ショップメニューに遷移する。
+function Shop(){
+	document.start_menu.bottom.value='shop';
+	document.start_menu.submit();
+}
+// セーブ画面に遷移する。
+function Save(){
+	document.start_menu.bottom.value='save_and_load';
+	document.start_menu.submit();
+}
+// 戦闘画面に遷移する。
+function Battle(){
+	document.start_menu.bottom.value='battle';
+	document.start_menu.submit();
+}
+-->
+</script>
+</head>
+<link href="/css/common.css" th:href="@{/css/common.css}" rel="stylesheet"></link>
+<body>
+<form name="start_menu" method="post" th:action="Fight" th:object="${Form}">
+  <ul>
+    <li><a href="" onclick="Equipment();return false;">そうび</a></li>
+    <li><a href="" onclick="Show_Status();return false;">ステータス</a></li>
+    <li><a href="" onclick="Show_Item_list();return false;">アイテム</a></li>
+    <li><a href="" onclick="Shop();return false;">ショップ</a></li>
+    <li><a href="" onclick="Save();return false;">セーブ</a></li>
+    <li><a href="" onclick="Battle();return false;">戦闘に進む</a></li>
+  </ul>
+  <input type="hidden" name="bottom" value="">
+  <input type="hidden" name="save_or_load" value="save">
+</form>
+</body>
+</html>

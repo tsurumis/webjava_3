@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>キャラ作成</title>
+<script type="text/javascript">
+<!--
+function NewChara(){
+	document.recreate.bottom.value='New_Game';
+	document.recreate.submit();
+}
+
+function NextChara(){
+	var result = window.confirm('このキャラでよろしいですか？');
+	if (result){
+		document.recreate.bottom.value='Next';
+		document.recreate.submit();
+	}else{
+		return false;
+	}
+}
+
+function FixChara(){
+	var result = window.confirm('この名前と性別でよろしいですか？');
+	if (result){
+		document.setting.bottom.value='Decision';
+		document.setting.submit();
+	}else{
+		return false;
+	}
+}
+
+-->
+</script>
+</head>
+<body>
+
+  <th:block th:each=" message : ${message}" >
+    <th:block th:text="${message}"></th:block><br>
+  </th:block>
+
+  <th:block th:if=" ${chara_menu} == menu_1">
+    <form name="recreate" method="post" th:action="${controller}">
+      <input type="submit" value="キャラの再作成" th:if="${session['character'].getRank()} != SS" onclick="NewChara();return false;"><br>
+      <input type="submit" value="次へ" onclick="NextChara();return false;">
+      <input type="hidden" name="bottom" value="">
+    </form>
+  </th:block>
+
+  <th:block th:if=" ${chara_menu} == menu_2">
+    <div align="center">
+      <form name="setting" method="post" th:action="${controller}" th:object="${Form}">
+        名前：<input type="text" name="character_name" value=""><br>
+        <br>
+        <input type="radio" name="sex" value="1">男性
+        <input type="radio" name="sex" value="2">女性<br>
+        <br>
+        <input type="submit" name="" value="キャラ設定を終える" onclick="FixChara();return false;">
+        <input type="hidden" name="bottom" value="">
+      </form>
+    </div>
+  </th:block>
+
+  <th:block th:each=" item : ${itemlist}" >
+    [[${item.getItem_no()}]] [[${item.getItem_name()}]]<br>
+  </th:block>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ショップメニュー</title>
+</head>
+<body>
+
+<br>
+
+所持マニー：[[${havemoney}]] マニー
+
+<div align="center">
+
+<font color="red">[[${message}]]</font><br>
+
+※【店主より】一度に購入できる個数は<font color="red">３個</font>とさせていただきます。
+<table border="1">
+  <tr th:each="item : ${itemlist}">
+      <form name="shop" method="post" th:action="Fight" th:object="${Form}">
+      <td>
+        [[${item.getItem_name()}]]
+      </td>
+      <td>
+        [[${item.getPrice()}]] マニー
+      </td>
+      <td>
+        [[${item.getDescription()}]]
+      </td>
+      <td>
+        <select name="qty">
+          <option value="1">1個</option>
+          <option value="2">2個</option>
+          <option value="3">3個</option>
+        </select>
+      </td>
+      <td>
+          <input type="submit" value="購入">
+          <input type="hidden" name="bottom" value="purchase">
+          <input type="hidden" name="item_no" th:value="${item.getItem_no()}">
+          <input type="hidden" name="item_price" th:value="${item.getPrice()}">
+      </td>
+      </form>
+  </tr>
+  </th:block>
+</table>
+
+</div>
+
+<form method="post" th:action="Fight">
+  <input type="submit" value="メニューに戻る">
+  <input type="hidden" name="bottom" value="menu">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>New Game!</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="js/common.js" th:src="@{/js/common.js}"></script>
+
+
+<script type="text/javascript">
+<!--
+function NewGame(){
+	document.start_menu.bottom.value='New_Game';
+	document.start_menu.submit();
+}
+
+function LoadGame(){
+	document.start_menu.bottom.value='save_and_load';
+	document.start_menu.submit();
+}
+
+-->
+</script>
+
+
+
+
+<link href="/css/common.css" th:href="@{/css/common.css}" rel="stylesheet"></link>
+</head>
+<body>
+
+  <div align="center">
+    <form name="start_menu" method="post" th:action="Fight" th:object="${Form}">
+      <ul>
+        <li><a href="" onclick="NewGame();return false;">New Game</a></li>
+        <li><a href="" onclick="LoadGame();return false;">Load Game</a></li>
+      </ul>
+    <input type="hidden" name="bottom" value="">
+    <input type="hidden" name="save_or_load" value="load">
+
+    </form>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>所持アイテム画面</title>
+</head>
+<body>
+<div align="center">
+<br>
+所持アイテム一覧<br>
+<br>
+【[[${job.getJob_name()}]]】 ＨＰ： [[${job.getHit_point()}]] / [[${job.getMax_hit_point()}]]<br>
+<br>
+[[${message}]]
+<table border="1">
+  <tr>
+    <td>
+      アイテム名
+    </td>
+    <td>
+      所持数
+    </td>
+    <td>
+      説明
+    </td>
+  </tr>
+  <tr th:each="item : ${proitemlist}">
+      <form name="shop" method="post" th:action="Fight" th:object="${Form}">
+      <td>
+        [[${item.getItem_name()}]]
+      </td>
+      <td>
+        <!-- 使うところは今のところないけど、for文のような使い方もできる↓
+             <select name="foo">
+               <option th:each="i : ${#numbers.sequence(1, item.getItem_qty() )}" th:value="${i}" th:text="${i}+ '個'">pulldown</option>
+             </select>
+         -->
+        [[${item.getItem_qty()}]]個
+      </td>
+      <td>
+        [[${item.getDescription()}]]
+      </td>
+      <td>
+        <th:block th:if="${item.getItem_kbn()} == 01">
+          <input type="submit" value="つかう">
+          <input type="hidden" name="item_no" th:value="${item.getItem_no()}">
+          <input type="hidden" name="item_qty" th:value="${item.getItem_qty()}">
+          <input type="hidden" name="value" th:value="${item.getValue()}">
+          <input type="hidden" name="action" value="use_item">
+        </th:block>
+      </td>
+      </form>
+  </tr>
+</table>
+
+</div>
+
+<form method="post" th:action="Fight">
+  <input type="submit" value="メニューに戻る">
+  <input type="hidden" name="bottom" value="menu">
+</form>
+
+</body>
+</html>

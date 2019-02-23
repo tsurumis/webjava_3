@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>バトル</title>
+<script type="text/javascript">
+<!--
+// たたかうボタン押下時
+function Battle(){
+	document.battle_menu.battle.value='たたかう';
+	document.battle_menu.submit();
+}
+
+// 回復ボタン押下時
+function Recover(){
+	document.battle_menu.battle.value='回復';
+	document.battle_menu.submit();
+}
+
+// 続けて戦闘をする押下時
+function continue_battle(){
+	document.win_menu.bottom.value='battle';
+	document.win_menu.submit();
+
+}
+
+
+-->
+</script>
+</head>
+<link href="/css/common.css" th:href="@{/css/common.css}" rel="stylesheet"></link>
+<body>
+<div align="center">
+<th:block th:if=" ${session['battle_status']} == battle or ${session['battle_status']} == gameover">
+<br>
+天候：[[${weather.getWeather_name()}]] / 有利タイプ：[[${weather.getYuuri_name()}]] / 不利タイプ：[[${weather.getHuri_name()}]]<br>
+
+</th:block>
+
+<!-- 敵HPと味方画像の表示 -->
+<div style="float:left; padding-left: 500px;">
+<div align="right">
+<th:block th:if=" ${session['battle_status']} != win ">
+[[${enemy.getJob_name()}]]：Lv[[${enemy.getLevel()}]]<br>
+HP：[[${enemy.getHit_point()}]] / [[${enemy.getMax_hit_point()}]]
+</th:block>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<img width="200" height="200" src="/images/ザコ.png"></img>
+
+</div>
+
+
+
+<!-- 味方HPと敵画像の表示 -->
+<div style="float:left; padding-left: 20px;">
+<th:block th:if=" ${session['battle_status']} != win ">
+<img width="200" height="200" src="/images/ザコ1.png"></img>
+</th:block>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div align="left">
+[[${fighter.getJob_name()}]]：Lv[[${fighter.getLevel()}]]<br>
+HP：[[${fighter.getHit_point()}]] / [[${fighter.getMax_hit_point()}]]
+</div>
+</div>
+</div>
+
+<div style="clear:left; padding-left: 500px;">
+<br>
+<!-- 戦闘時のボタン -->
+<th:block th:if=" ${session['battle_status']} == battle">
+  <form method="post" name="battle_menu" th:action="Fight">
+    <input type="submit" onclick="Battle();return false;" value="たたかう">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+    <input type="submit" onclick="Recover();return false;" value="回復する">
+    <input type="hidden" name="battle" value="">
+  </form>
+</th:block>
+<!--
+  <form method="post" th:action="Fight">
+    <input type="submit" name="battle" value="ステータスをみる">
+  </form>
+  <form method="post" th:action="Fight">
+    <input type="submit" name="battle" value="敵のステータスをみる">
+  </form>
+-->
+
+<th:block th:each=" message : ${message}" >
+  <th:block th:text="${message}"></th:block><br>
+</th:block>
+
+<th:block th:if=" ${session['battle_status']} == win">
+<form name="win_menu" method="post" th:action="Fight">
+  <input type="submit" value="メニューに戻る">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+  <input type="submit" value="続けて戦闘をする" onclick="continue_battle();return false;">
+  <input type="hidden" name="bottom" value="menu">
+</form>
+</th:block>
+
+<!-- 敵に負けた時のボタン -->
+<th:block th:if=" ${session['battle_status']} == gameover">
+  <form method="get" th:action="Fight">
+    <input type="submit" name="battle" value="ロードゲーム">
+  </form>
+</th:block>
+
+<!-- メニュー時のボタン -->
+<th:block th:if=" ${session['battle_status']} == menu">
+  <form method="post" th:action="Fight">
+    <input type="submit" name="battle" value="回復する">
+  </form>
+  <br>
+  <form method="post" th:action="Fight">
+    <input type="submit" name="battle" value="ステータスをみる">
+  </form>
+  <br>
+  <form method="post" th:action="Fight">
+    <input type="submit" name="battle" value="次にすすむ">
+  </form>
+
+</th:block>
+
+<!-- ステータスの表示 -->
+<th:block th:each=" status : ${status_list}" >
+    <th:block th:text="${status}"></th:block><br>
+</th:block>
+
+</div>
+
+</body>
+</html>
